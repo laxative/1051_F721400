@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<script type="text/javascript">
+		var names= new Array("國王","大饅頭","瑪麗","小苓","仔仔","妞妞","嘟嘟","圓圓","鐵蛋","冬粉","可可","小泡芙","柏拉圖","駱駝","ㄇ一 ㄌㄨ ‧ㄍㄨ","啦啦","布丁","小姐","大俠","夢露","掃把","粉圓","肉包","寶寶","美麗","披薩","星星","糖果","大雄","皮皮","娜娜","旺旺","小叮噹","411","星期二","蒜頭","巴哈","添財","憨憨","皺皮","ㄉㄡ ㄖㄨㄟ ㄇ一","燒餅","蟲子","多多","釦子","椪柑","妹妹","菲菲","噗噗","滷肉","探戈","貢丸","桃太郎","恰恰","阿里","比利","土司","香香","花生","狐狸","來福","小卷","茉莉","微笑","ㄎㄡ ‧ㄎㄡ","小花花","豆沙包","搖搖","小馬","阿丹","小不點","灰毛","胖皮","哈哈","寶貝","易科納唐","眼鏡","香腸","公主","蜘蛛","咖哩","雨果","雪茄","芭比","露比","ㄇㄚˇ ㄐ一ˊ","托拉庫","乖乖","貓王","班長","巧克力","大山","黑輪","喬弟","哈弟","奇弟","姐姐","鳳梨","抓抓抓","賓果");
+
+		var num = prompt("份數: ");
+		var square = prompt("格子數: ");
+
+		while(square<=2 || square>10)
+			var square = prompt("enter again!!(3<=x<=10)");
+
+		var visited = Array(100);
+
+		for (var i = 0; i < num; i++) {
+			document.write("<table width=300 height=300 border=2>");
+			for (var j = 0; j < square; j++) {
+				document.write("<tr>");
+				var check = square;
+				while(check) {
+					var rand = Math.round(Math.random()*100);
+					if(!visited[rand]) {
+						visited[rand] = true;
+						document.write("<td width=calc(100%/square)>" + names[rand] + "</td>");
+						check--;
+					}
+				}
+				document.write("</tr>");
+			}
+			document.write("</table><br>");
+			for (var j = 0; j < 100; j++) {
+				visited[j] = false;
+			}
+		}
+	</script>
+</body>
+</html>

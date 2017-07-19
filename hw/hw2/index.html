@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="d3.js"></script>
+	<style type="text/css">
+		html,body{
+			height: 100%;
+			width: 100%;
+		}
+		body{
+			margin: 0 auto;
+			background-color: #000;
+			display: inline-block;
+			overflow: hidden;
+		}
+		#header{
+			height: 100%;
+			width: 220px;
+			position: absolute;
+			top: 0;
+			z-index: 999;
+		}
+		#menu{
+			height: 100%;
+			width: 100%;
+		}
+		#menu > header{
+			width: 45px;
+			height: 100%;
+			float: left;
+			z-index: 99;
+		}
+		#menu > header > span{
+			position: relative;
+			top: 40%;
+			left: 10%;
+			text-align: center;
+			margin-top: -25px;
+			width: 45px;
+			height: 45px;
+			font-size: 30px;
+			line-height: 50px;
+			color: #fff;
+			transition: all .3s ease-out;
+		}
+		#menu > header > span:hover{
+			cursor: pointer;
+			color: #000;
+			background: #fff;
+		}
+		#menu > article{
+			width: 170px;
+			height: 100%;
+			float: left;
+			border-right: 3px solid #fff;
+			position: relative;
+			left: -170px;
+			z-index: -1;
+		}
+		.menu_inside{
+			height: 500px;
+			width: 100%;
+			position: relative;
+			top: 50%;
+			margin: -170px 0 0 0;
+			list-style: none;
+			padding: 0;
+		}
+		.menu_inside > li{
+			color: #fff;
+			font-size: 20px;
+			width: calc(100% - 10px);
+			height: 40px;
+			line-height: 40px;
+			padding-left: 0;
+			transition: all .3s ease-out;
+			padding-left: 10px;
+		}
+		.menu_inside > li:hover{
+			cursor: pointer;
+			background: #fff;
+			color: #000;
+		}
+		#music-setting-block{
+			margin-top: 20px;
+			color: #fff;
+			width: calc(100% - 10px);
+			height: 60%;
+			padding-left: 10px;
+			font-size: 20px;
+			line-height: 40px;
+		}
+		#photo-gallery{
+			height: 100%;
+			width: 100%;
+			margin-left: 100px;
+			position: relative;
+		}
+		#photo{
+			width: 100%;
+			height: 77%;
+			position: relative;
+		}
+		#photo-index{
+			width: 100%;
+			height: 23%;
+			position: relative;
+			overflow: hidden;
+		}
+		.photo-wrapper{
+			display: inline-block;
+			width: 600px;
+			height: 450px;
+			position: relative;
+			top: 5%;
+			left: 40%;
+			margin-left: -300px;
+		}
+		.photo-wrapper > a > img{
+			width: 100%;
+			height: 100%;
+		}
+		#small-photo-box-wrapper{
+			height: 100%;
+			width: 80%;
+			position: relative;
+			left: 10%;
+			overflow: hidden;
+		}
+		#small-photo-box{
+			position: relative;
+			width: 2000px;
+			height: 100%;
+			top: 50%;
+			margin-top: -45px;
+			text-align: center;
+			overflow: hidden;
+		}
+		#small-photo-box > .small_img{
+			text-align: left;
+			display: inline-block;
+			position: relative;
+			width: 90px;
+			height: 60px;
+			box-shadow: 1px 1px 4px #000;
+			left: 325px;
+			float: left;
+			margin: 0 10px 0 0;
+		}
+		#small-photo-box > .small_img:hover{
+			cursor: pointer;
+			border: 2px solid #fff;
+			width: 86px;
+			height: 56px;
+		}
+		.control{
+			color: #fff;
+			font-size: 30px;
+			position: absolute;
+			height: 450px;
+			width: 50px;
+			line-height: 450px;
+			text-align: center;
+			float: left;
+			background-color: transparent;
+			z-index: 99;
+			opacity: 0;
+			-webkit-transition: opacity .5s ease;
+		}
+		.left{
+			top: 0;
+			left: 0;
+		}
+		.right{
+			top: 0;
+			right: 0;
+		}
+		.number{
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			width: 100px;
+			height: 40px;
+			background: #fff;
+			color: #000;
+			line-height: 40px;
+			text-align: center;
+		}
+		.photo-intro{
+			position: absolute;
+			width: 100%;
+			height: 60px;
+			bottom: 0;
+			left: 0;
+			background-color: #fff;
+			opacity: .6;
+			z-index: 88;
+			text-align: center;
+			font-size: 40px;
+			line-height: 60px;
+			font-weight: bold;
+		}
+		.control:hover{
+			cursor: pointer;
+			opacity: 1;
+		}
+		.control-icon{
+			float: right;
+			margin-right: 25px;
+			width: 60px;
+			height: 20px;
+			margin-top: 10px;
+		}
+		.control-left{
+			position: relative;
+			top: -20px;
+			width: 30px;
+			height: 20px;
+			border-top-left-radius: 10px;
+			border-bottom-left-radius: 10px;
+			background: red;
+			float: left;
+			color: #fff;
+			line-height: 20px;
+			text-align: center;
+		}
+		 .control-right{
+			position: relative;
+			top: -20px;
+			width: 30px;
+ 			height: 20px;
+ 			border-top-right-radius: 10px;
+ 			border-bottom-right-radius: 10px;
+ 			background: blue;
+			float: left;
+			color: #fff;
+			line-height: 20px;
+			text-align: center;
+		}
+		.control-shield{
+			z-index: 20;
+			position: relative;
+			width: 38px;
+			height: 20px;
+			background: #444;
+			border-radius: 10px;
+			top: 0px;
+			text-align: center;
+			color: #fff;
+		}
+		.control-shield > div{
+			position: relative;
+			top: -9px;
+			left: 8px;
+			width: 20px;
+			height: 38px;
+			transform:rotate(90deg);
+		}
+		.control-shield:hover{
+			cursor: pointer;
+		}
+		#song{
+			background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #ddd;
+			-webkit-appearance: none;
+			width: 60px;
+			float:right;
+			margin-right:25px;
+			margin-top: 12px;
+		}
+		#album{
+			height: 100%;
+			width:  100%;
+			position: relative;
+			overflow: auto;
+			margin: 0px 0 20px 60px;
+		}
+		#album-contain{
+			margin-top: 30px;
+			margin-bottom: 20px;
+			width: 100%;
+			height: 100%;
+		}
+		#album-contain > .small_img {
+			text-align: left;
+			display: inline-block;
+			position: relative;
+			width: 210px;
+			height: 140px;
+			box-shadow: 1px 1px 4px #000;
+			left: 20px;
+			float: left;
+			margin: 10px 10px 0 0;
+			border: 2px solid #fff;
+		}
+		#img-title{
+			width: 200px;
+			height: 150px;
+			margin: 20px 0 20px 150px;
+			border: 3px solid	#fff;
+			transition: all .3s ease;
+		}
+		#img-title:hover{
+			cursor: pointer;
+			box-shadow: 3px 3px 30px #rgb(255, 255, 255);
+		}
+
+	</style>
+</head>
+<body>
+	<audio id="bgm" src="res/bgm1.mp3" autoplay="autoplay" loop="loop" control="none"></audio>
+	<header id="header">
+		<section id="menu">
+			<header><span id="menu_icon">&#9776;</span></header>
+			<article id="menu_inner">
+				<ul class="menu_inside">
+					<li>
+						<span>Gallery</span>
+					</li>
+					<li>
+						<span>Albums</span>
+					</li>
+					<li>
+						<span>Music Setting</span>
+					</li>
+					<div id="music-setting-block">
+						<section>
+							<span>Play</span>
+							<div class="control-icon">
+								<div class="control-shield">
+									<div>&#9776;</div>
+								</div>
+								<div class="control-left">&#10007;</div>
+								<div class="control-right">&#10003;</div>
+							</div>
+						</section>
+						<section>
+							<span>Song</span>
+							<select id="song">
+							  <option value="0" select="select">bgm1</option>
+							  <option value="1">bgm2</option>
+							  <option value="2">bgm3</option>
+							</select>
+						</section>
+					</div>
+				</ul>
+			</article>
+		</section>
+	</header>
+	<article id="photo-gallery">
+		<section id="photo">
+			<div class="photo-wrapper">
+				<section class="left control">&#x2770;</section>
+				<a id="download" href="img/1.png" download><img id="big-photo" src="img/1.png" alt=""></a>
+				<section class="number">1/20</section>
+				<section class="right control">&#x2771;</section>
+				<section class="photo-intro">Botania</section>
+			</div>
+		</section>
+		<header id="photo-index">
+			<div id="small-photo-box-wrapper">
+				<div id="small-photo-box"></div>
+			</div>
+		</header>
+	</article>
+	<article id="album">
+		<div style="border-bottom: 3px solid #fff;">
+			<h1 style="color: #fff;">Album:</h1>
+			<img id="img-title" src="img/20.jpg">
+		</div>
+		<div id="album-contain"></div>
+	</article>
+	<script type="text/javascript">
+		//set small photo
+		var small_photo = [
+			{
+				"src": "img/1.png",
+				"content": "Botania"
+			},{
+				"src": "img/2.png",
+				"content": "Thaumcraft"
+			},{
+				"src": "img/3.png",
+				"content": "Factory"
+			},{
+				"src": "img/4.png",
+				"content": "Blood Magic"
+			},{
+				"src": "img/5.png",
+				"content": "Gaia Alter"
+			},{
+				"src": "img/6.png",
+				"content": "7-Sigment Decoder"
+			},{
+				"src": "img/7.png",
+				"content": "Blood Magic Binding Alter"
+			},{
+				"src": "img/8.png",
+				"content": "Night Vision"
+			},{
+				"src": "img/9.png",
+				"content": "End Door"
+			},{
+				"src": "img/10.png",
+				"content": "Forest"
+			},{
+				"src": "img/11.png",
+				"content": "Witches Alter"
+			},{
+				"src": "img/12.png",
+				"content": "Village in the forest"
+			},{
+				"src": "img/13.png",
+				"content": "Slime Island"
+			},{
+				"src": "img/14.png",
+				"content": "Aerolite fill with dirt"
+			},{
+				"src": "img/15.png",
+				"content": "Mountain"
+			},{
+				"src": "img/16.png",
+				"content": "Village"
+			},{
+				"src": "img/17.png",
+				"content": "Dessert"
+			},{
+				"src": "img/18.png",
+				"content": "City"
+			},{
+				"src": "img/19.png",
+				"content": "Volcanic"
+			},{
+				"src": "img/20.jpg",
+				"content": "Minecraft"
+			},
+		];
+
+		var bgm_media = [
+			{
+				"src": "res/bgm1.mp3"
+			},{
+				"src": "res/bgm2.mp3"
+			},{
+				"src": "res/bgm3.mp3"
+			}
+		];
+
+
+		var cur = 0;
+		var leftRight = null;
+		//set gallery photo
+		d3.select('#small-photo-box').selectAll('img')
+			.data(small_photo).enter().append('img')
+				.attr({
+					'class': 'small_img',
+					'src': function(d) { return d.src;}
+				})
+				.style({
+					'opacity': function(d,i) { return (1 - i * 0.15);}
+				})
+				.on("click", function(d,i) {
+					cur = i;
+					d3.select('#small-photo-box').selectAll('img')
+						.transition().duration(1000)
+							.style({
+								'left': cur * (-100) + 325 + 'px',
+								'opacity': function(d,i) {
+									return -Math.abs(cur-i)*0.15 + 1;
+								}
+							});
+					d3.select('.photo-intro').transition().delay(500)
+						.text(small_photo[cur].content);
+					d3.select('.number').transition().delay(500)
+												.text(cur+1 + '/' + 20);
+				});
+		function clickphoto(photo) {
+				document.getElementById('big-photo').src = photo;
+				document.getElementById('download').href = photo;
+			}
+		//set control
+		d3.selectAll('.control').on("click",function(d,i) {
+			leftRight = (i==0?-1:1);  //left->-1  right->1
+			cur += leftRight;
+			if(cur<0) cur=19;
+			else if(cur>19) cur=0;
+			$('.photo-wrapper').animate({'opacity': '0'},300
+				, function(src) {
+				/* stuff to do after animation is complete */
+				setTimeout(function(){ clickphoto(src)},400);
+			}(small_photo[cur].src));
+			$('.photo-wrapper').delay(300).animate({'opacity': '1'}, 300);
+			d3.select('#small-photo-box').selectAll('img')
+				.transition().duration(1000)
+					.style({
+							'left': cur * (-100) + 325 + 'px',
+							'opacity': function(d,i) {
+								return -Math.abs(cur-i)*0.15 + 1;
+							}
+						});
+			d3.select('.photo-intro').transition().delay(500)
+						.text(small_photo[cur].content);
+			d3.select('.number').transition().delay(500)
+									.text(cur+1 + '/' + 20);
+		});
+
+		//set interval
+		var interval_set = setInterval(function() { goRight()},5000);
+
+		function goRight() {
+			cur += 1;
+			if(cur<0) cur=19;
+			else if(cur>19) cur=0;
+			$('.photo-wrapper').animate({'opacity': '0'},300
+				, function(src) {
+				/* stuff to do after animation is complete */
+				setTimeout(function(){ clickphoto(src)},400);
+			}(small_photo[cur].src));
+			$('.photo-wrapper').delay(300).animate({'opacity': '1'}, 300);
+			d3.select('#small-photo-box').selectAll('img')
+				.transition().duration(1000)
+					.style({
+							'left': cur * (-100) + 325 + 'px',
+							'opacity': function(d,i) {
+								return -Math.abs(cur-i)*0.15 + 1;
+							}
+						});
+			d3.select('.photo-intro').transition().delay(500)
+						.text(small_photo[cur].content);
+			d3.select('.number').transition().delay(500)
+									.text(cur+1 + '/' + 20);
+		}
+
+		//jQuery
+		$(document).ready(function() {
+			var small_photo = document.getElementById('small-photo-box').children;
+			//top photo change
+			for (var i = 0; i < small_photo.length; i++) {
+				small_photo[i].onclick = function() {
+					$('.photo-wrapper').animate({'opacity': '0'},300
+						, function(src) {
+						/* stuff to do after animation is complete */
+						setTimeout(function(){ clickphoto(src)},400);
+					}(this.src));
+					$('.photo-wrapper').delay(300).animate({'opacity': '1'}, 300);
+				};
+			}
+
+			//menu setting
+			var menuopen = false;
+			$('#menu_icon').click(function() {
+				if(!menuopen) {
+					$('#menu_inner').animate({
+						'left': '0px',
+						'z-index': '0'
+					} ,600);
+					if(document.getElementById('photo-gallery').style.display == "none") {
+						$('#album').animate({ 'margin-left': '220px'}, 600);
+					}
+					menuopen = true;
+				} else {
+					$('#menu_inner').animate({
+						'left': '-170px',
+						'z-index': '-1'
+					} ,600);
+					if(document.getElementById('photo-gallery').style.display == "none") {
+						$('#album').animate({ 'margin-left': '60px'}, 600);
+					}
+					menuopen = false;
+					$('#music-setting-block').hide();
+				}
+			});
+
+			$('#music-setting-block').hide();
+
+			var menulist = document.getElementsByClassName('menu_inside')[0].children;
+			$(menulist[0]).click(function() {
+				if(document.getElementById('photo-gallery').style.display == "none") {
+					$('#album').toggle(800);
+					$('#photo-gallery').delay(1000).toggle(800);
+				}
+			});
+			$(menulist[1]).click(function() {
+				if(document.getElementById('photo-gallery').style.display != "none") {
+					$('#photo-gallery').toggle(800);
+					$('#album').delay(1000).toggle(800);
+				}
+			});
+
+			$(menulist[2]).click(function() {
+				$('#music-setting-block').fadeToggle(500);
+			});
+
+			//bgm setting
+			var song = document.getElementById('song');
+			var bgmplay = document.getElementById('bgm');
+			$(song).change(function() {
+				var selectsong = song.options[song.selectedIndex].value;
+				bgmplay.src = bgm_media[selectsong].src;
+				$(playcontrol).animate({'left': '0px'},500);
+				play_audio('play');
+				play = true;
+			});
+
+			$("#bgm").trigger('load');
+			function play_audio(task) {
+	      if(task == 'play'){
+	           $("#bgm").trigger('play');
+	      }
+	      if(task == 'stop'){
+	           $("#bgm").trigger('pause');
+	           $("#bgm").prop("currentTime",0);
+	      }
+ 			}
+
+			var playcontrol = document.getElementsByClassName('control-shield')[0];
+			var play = true;
+			$(playcontrol).click(function() {
+				if(play) {
+					$(this).animate({'left': '24px'},500);
+					play_audio('stop');
+					play = false;
+				}else{
+					$(this).animate({'left': '0px'},500);
+					play_audio('play');
+					play = true;
+				}
+			});
+
+			$('#photo-gallery').hide();
+			//album
+			d3.select('#album-contain').selectAll('img').data(small_photo).enter().append('img')
+				.attr({
+					'class': 'small_img',
+					'src': function(d) { return d.src;}
+				});
+
+			$('#album-contain').hide();
+			$('#img-title').click(function() {
+				$('#album-contain').slideToggle(800);
+			});
+		});
+	</script>
+</body>
+</html>

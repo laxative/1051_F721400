@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#form{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<form id="form">
+	<div id="user"></div>
+	商品名稱: <br>
+	<input type="text" name="thing"> <br>
+	數量: <br>
+	<select name="num">
+		  <option value="1">1</option>
+		  <option value="2">2</option>
+		  <option value="3">3</option>
+	</select> <br>
+	價格: <br>
+	<input type="text" name="price"> <br><br>
+
+	-------------------------------------------------<br><br>
+	商品名稱: <br>
+	<input type="text" name="thing"> <br>
+	數量: <br>
+	<select name="num">
+		  <option value="1">1</option>
+		  <option value="2">2</option>
+		  <option value="3">3</option>
+	</select> <br>
+	價格: <br>
+	<input type="text" name="price"> <br><br>
+	-------------------------------------------------<br><br>
+	商品名稱: <br>
+	<input type="text" name="thing"> <br>
+	數量: <br>
+	<select name="num">
+		  <option value="1">1</option>
+		  <option value="2">2</option>
+		  <option value="3">3</option>
+	</select> <br>
+	價格: <br>
+	<input type="text" name="price"> <br><br>
+	<button type="button" onclick="checkdata()">Enter</button>
+	</form>
+	<script type="text/javascript">
+		while(1) {
+			var account = window.prompt("Enter your account");
+			var password = window.prompt("Enter your password");
+			if(account === "laxative" && password === "pwd") break;
+		}
+		var form = document.getElementById('form');
+		form.style.display = "block";
+		var userdata = document.getElementById('user');
+		userdata.innerHTML = "Welcome, " + account;
+		function checkdata() {
+			var thing = [], num = [], price = [];
+			for (var i = 0; i < 3; i++) {
+				thing.push(document.getElementsByName('thing')[i].value);
+				num.push(document.getElementsByName('num')[i].value);
+				price.push(document.getElementsByName('price')[i].value);
+			}
+			var check = window.confirm(
+				"is it correct??" + "\n" +
+				"----------------------------------" + "\n"
+				+ thing[0] + " num: " + num[0] + " price:  " + price[0] + " total: " + num[0]*price[0] + "\n"
+				+ thing[1] + " num: " + num[1] + " price:  " + price[1] + " total: " + num[1]*price[1] + "\n"
+				+ thing[2] + " num: " + num[2] + " price:  " + price[2] + " total: " + num[2]*price[2] + "\n"
+				+ "Total Price: " + (num[0]*price[0]+num[1]*price[1]+num[2]*price[2]) + "\n"
+				);
+			function changedata() {
+				form.innerHTML = "交易完成";
+			}
+			if(check) {changedata();}
+		}
+	</script>
+</body>
+</html>

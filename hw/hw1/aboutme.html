@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+	<title></title>
+	<style type="text/css">
+		*{
+			box-sizing: border-box;
+			font-family: "微軟正黑體", Arial, Helvetica, sans-serif;
+			letter-spacing: 1px;
+		}
+		html,body{
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+		}
+		body{
+			margin: 0 auto;
+		}
+		#contain{
+			opacity: 0;
+			background: #a5a5a5;
+			height: 100%;
+			width: 100%;
+		}
+		#img-wrapper{
+			width: 35%;
+			height: 100%;
+			text-align: center;
+			float: left;
+			position: relative;
+			top: -15%;
+			left: 0;
+			opacity: 0;
+		}
+		#intro-wrapper{
+			width: 65%;
+			height: 100%;
+			padding: 30px;
+			text-align: center;
+			float: left;
+		}
+		.ver-helper{
+			display: inline-block;
+			height: 100%;
+			vertical-align: middle;
+		}
+		#img-wrapper > img{
+			vertical-align: middle;
+			width: 250px;
+			height: 250px;
+			border-radius: 50%;
+			border: 3px solid #fff;
+			box-shadow: 3px 3px 20px #000;
+		}
+		#inner-intro_noindex{
+			opacity: 0;
+			width: 700px;
+			height: 84%;
+			background-color: #e6e6e6;
+			box-shadow: 3px 5px 10px #000;
+			position: relative;
+			padding: 30px;
+			text-align: left;
+			top: 8%;
+			left: -15%;
+			border-radius: 30px;
+			line-height: 25px;
+		}
+		#inner-intro_noindex:after{
+			right: 100%;
+			top: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-color: rgba(230, 230, 230, 0);
+			border-right-color: #e6e6e6;
+			border-width: 30px;
+			margin-top: -30px;
+		}
+		#inner-intro_index{
+			width: 700px;
+			height: 84%;
+			background-color: #e6e6e6;
+			box-shadow: 3px 5px 10px #000;
+			position: relative;
+			padding: 30px;
+			text-align: left;
+			top: 8%;
+			left: -15%;
+			border-radius: 30px;
+			line-height: 25px;
+		}
+		#index{
+			z-index: 99;
+			width: 30%;
+			height: 100%;
+			background-color: #555;
+			position: absolute;
+			top: 0;
+			left: -30%;
+			box-shadow: 0 5px 13px 0 rgba(0,0,0,0.16),0 8px 16px 0 rgba(0,0,0,0.12);
+		}
+		#index-control{
+			position: absolute;
+			z-index: 999;
+			top: 10%;
+			left: 0;
+			width: 0;
+			height: 0;
+			border-top: 20px solid transparent;
+			border-bottom: 20px solid transparent;
+			border-left: 20px solid #555;
+			cursor: pointer;
+		}
+		#logo-wrapper{
+			width: 100%;
+			height: 30%;
+			padding: 20px;
+			overflow: hidden;
+		}
+		.logo{
+			border-bottom: 5px solid #fff;
+			width: 100%;
+			height: 100%;
+			text-align: center;
+		}
+		.logo > a > img{
+			height: 135px;
+			width: 135px;
+			border-radius: 50%;
+			border: 2px solid #666;
+			vertical-align: middle;
+			position: relative;
+			left: 0;
+			top: -10px;
+		}
+		.logo > a > img:hover{
+			cursor: pointer;
+		}
+		#option{
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 300px;
+			list-style: none;
+		}
+		#option > li{
+			width: 100%;
+			height: 60px;
+			text-align: center;
+			-webkit-transition: all .3s ease-out;
+		}
+		#option > li > a{
+			text-decoration: none;
+			width: 100%;
+			height: 100%;
+		}
+		#option > li > a > span{
+			color: #fff;
+			font-weight: bold;
+			position: relative;
+			left: 0;
+			top: -7px;
+			font-size: 30px;
+			-webkit-transition: all .3s ease-out;
+		}
+		#option > li > a > img{
+			width: 50px;
+			height: 50px;
+			position: relative;
+			top: 5px;
+			left: -40px;
+		}
+		#option > li:hover{
+			background-color: #ddd;
+			cursor: pointer;
+		}
+		#option > li:hover > a > span{
+			color: #000;
+		}
+		#contact{
+			width: 100%;
+			height: calc(70% - 300px);
+			padding: 20px;
+		}
+		#contact_contain{
+			border-top: 5px solid #fff;
+			padding: 20px;
+		}
+		#intro-wrapper > div > div, #intro-wrapper > div > p{
+			margin-bottom: 20px;
+			line-height: 35px;
+		}
+	</style>
+</head>
+<body>
+	<article id="contain">
+		<header id="index">
+			<section id="logo-wrapper">
+				<div class="logo">
+					<span class="ver-helper"></span>
+					<a href="index.html"><img src="laxative-logo.jpg" alt=""></a>
+				</div>
+			</section>
+			<ul id="option">
+				<li>
+					<a href="#">
+						<img src="aboutme-icon.png"/>
+						<span>Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="record.html">
+						<img src="record-icon.png"/>
+						<span>Record</span>
+					</a>
+				</li>
+			</ul>
+			<footer id="contact">
+				<div id="contact_contain"></div>
+			</footer>
+		</header>
+		<section id="img-wrapper">
+			<span class="ver-helper"></span>
+			<img src="laxative.jpg" alt=""/>
+		</section>
+		<section id="intro-wrapper">
+			<div id="inner-intro_noindex">
+				<div style="font-size: 22px;">
+					&nbsp;&nbsp;“The most rewarding things you do in life are often the ones that look like they cannot be done.”<br>
+					<div style="float: right; font-size: 16px;">
+						– Arnold Palmer
+					</div>
+				</div><br>
+				<p>
+					&nbsp;&nbsp;&nbsp;&nbsp;現就讀國立成功大學資訊工程學系。高三時第一次嘗試前端網頁設計,之後便不時嘗試設計網頁，並上網查詢相關知識來擴充自身能力。
+				</p>
+				<p>
+					&nbsp;&nbsp;&nbsp;&nbsp;升上大學後,參與系上“競賽演算法設計與實作”課程,藉練習UVA,POJ之題目來增強自身之邏輯能力,不時更參加相關之比賽來磨練自身,如:ITSA。
+				</p>
+				<p>
+					&nbsp;&nbsp;&nbsp;&nbsp;除系上課程之外,更是參與了高中學長之專案“看見思法”-司法資料視覺化網站,藉此得以更加增進自己的能力,目標成為位網頁前端工程師。
+				</p>
+			</div>
+		</section>
+	</article>
+	<section id="index-control"></section>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$.fn.wait = function(time, type) {
+	        	time = time || 1000;
+	        	type = type || "fx";
+	        	return this.queue(type, function() {
+	            	var self = this;
+	            	setTimeout(function() {
+	             	   $(self).dequeue();
+	            	}, time);
+	        	});
+    		};
+			$('#contain').animate({opacity: 1.0},1000);
+			$('#img-wrapper').wait(1000)
+				.animate({
+					'top': '0',
+					'opacity': '1.0'
+				}, 1000);
+			$('#inner-intro_noindex').wait(2000)
+				.animate({
+					'left': '0',
+					'opacity': '1.0'
+				}, 1000);
+
+			var click = false;
+			$('#index-control').click(function(event) {
+				/* Act on the event */
+				if(!click) {
+					click = true;
+					$(this).animate({'left': '30%'},600);
+					$('#img-wrapper').animate({
+						'opacity': '0',
+						'display': 'none'
+					}, 350);
+					$('#index').animate({'left': '0'}, 600);
+					document.getElementById('inner-intro_noindex').id = 'inner-intro_index';
+				} else{
+					click = false;
+					$(this).animate({'left': '0'},600);
+					$('#img-wrapper').animate({
+						'opacity': '1.0',
+						'display': 'inline-block'
+					}, 1200);
+					$('#index').animate({'left': '-30%'}, 600);
+					document.getElementById('inner-intro_index').id = 'inner-intro_noindex';
+
+				}
+			});
+		});
+	</script>
+</body>
+</html>

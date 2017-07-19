@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+	<style type="text/css">
+		*{
+			box-sizing: border-box;
+			font-family: "微軟正黑體", Arial, Helvetica, sans-serif;
+			letter-spacing: 1px;
+		}
+		html,body{
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+		}
+		body{
+			margin: 0 auto;
+		}
+		#contain{
+			background: #a5a5a5;
+			height: 100%;
+			width: 100%;
+		}
+		.inner-contain{
+			border-radius: 5px;
+			position: relative;
+			display: inline-block;
+			width: calc(20% - 2px);
+			min-width: 200px;
+			background: #f7f7f7;
+			margin: 1px;
+			height: 100%;
+			float: left;
+			opacity: .6;
+			-webkit-transition: opacity .3s ease;
+		}
+		.inner-contain:hover{
+			opacity: 1.0;
+			cursor: pointer;
+		}
+		.title{
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			height: 35%;
+			background: #000;
+			opacity: .5;
+			color: #fff;
+			padding-top: .8em;
+			font-size: 20px;
+			text-align: center;
+			-webkit-transition: all .3s ease;
+			box-shadow: 0 5px 2px .5px #fff inset;
+		}
+		.inner-contain:hover .title{
+			bottom: -25%;
+		}
+		.img-wrapper{
+			position: absolute;
+			top:0;
+			left: 0;
+			width: 100%;
+			height: 65%;
+			padding: 5px;
+		}
+		.img-wrapper > img{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 200px;
+			height: 200px;
+			margin-left: -100px;
+			margin-top: -100px;
+		}
+	</style>
+</head>
+<body>
+	<article id="contain">
+		<a class="inner-contain" href="javascript:delay('aboutme.html')">
+			<div class="img-wrapper">
+				<img src="aboutme-icon.png"/>
+			</div>
+			<span class="title">profile</span>
+		</a>
+		<a class="inner-contain" href="javascript:delay('record.html')">
+			<div class="img-wrapper">
+				<img src="record-icon.png"/>
+			</div>
+			<span class="title">Record</span>
+		</a>
+		<a class="inner-contain">
+			<span class="title"></span>
+		</a>
+		<a class="inner-contain">
+			<span class="title"></span>
+		</a>
+		<a class="inner-contain">
+			<span class="title"></span>
+		</a>
+	</article>
+	<script type="text/javascript">
+		$.fn.wait = function(time, type) {
+	        time = time || 1000;
+	        type = type || "fx";
+	        return this.queue(type, function() {
+	            var self = this;
+	            setTimeout(function() {
+	                $(self).dequeue();
+	            }, time);
+	        });
+    	};
+    	function delay (URL) {
+    		setTimeout( function() { window.location = URL }, 2500 );
+		}
+		$(document).ready(function() {
+			$('#contain_wrapper').hide();
+			var contain_box = document.getElementById('contain').children;
+			for (var i = 0; i < contain_box.length; i++) {
+				if(i%2!=0) {
+					contain_box[i].style.top = '100%';
+				} else {
+					contain_box[i].style.top = '-100%';
+				}
+			}
+			for (var i = 0; i < contain_box.length; i++) {
+				$(contain_box[i]).animate({top: '0%'}, 1200);
+			}
+
+			for (var i = 0; i < contain_box.length; i++) {
+				$(contain_box[i]).click(function(event) {
+					for (var j = 0; j < contain_box.length; j++) {
+						if(contain_box[j] === this) {
+							$(contain_box[j]).wait(1000).animate({opacity: 0}, 500);
+							$(contain_box[j]).wait(1000).slideUp(500);
+						} else {
+							$(contain_box[j]).animate({opacity: 0}, 500);
+							$(contain_box[j]).wait(1000).slideUp(500);
+						}
+					}
+				});
+			}
+		});
+	</script>
+</body>
+</html>

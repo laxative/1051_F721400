@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ajax practice1</title>
+  </head>
+  <body>
+    <form action="shop.php" method="post">
+      Item: <input type="text" name="item" value=""><br>
+      Number: <input type="text" name="number" value=""><br>
+      Price: <input type="text" name="price" value=""><br>
+      <input type="button" name="submit" value="submit" onclick="buy()">
+    </form>
+
+    <div id="detail"></div>
+
+    <script type="text/javascript">
+      function buy() {
+        var item = document.getElementsByName('item')[0].value;
+        var number = document.getElementsByName('number')[0].value;
+        var price = document.getElementsByName('price')[0].value;
+        var string = 'item='+item+'&number='+number+'&price='+price;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST","shop.php?"+string,true);
+        xhttp.onreadystatechange = function() {
+          if(this.readyState == 4 || this.status == 200) {
+            var result = document.getElementById('detail');
+            result.innerHTML = xhttp.responseText+'<br><button onclick="finish()">Finish</button>';
+          }
+        }
+        xhttp.send();
+      }
+      function finish() {
+        document.getElementById('detail').innerHTML = "Finish";
+      }
+    </script>
+  </body>
+</html>
